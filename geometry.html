@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Geometry Dash Account Manager</title>
+        <link rel="icon" type="image/x-icon" href="assets/geometry.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <script src="https://www.google.com/recaptcha/enterprise.js?render=03AGdBq27tvcDrfiRuxQnyKs-SarXVzPODXLlpiwNsLqdm9BSQQRtxhkD-Wv6l2vBSnL_JQd80FZp3IeeF_TxNMrqhyQchk7hmg_ypDctt_F5RTr9zNO9TSDX3Fy0qHQTuaM9E3hrAkA1v1l7D-fCreg7uq8zoudfh1ZRmN49-2iAMAn4E8_ff-nmlLTNGVZmCSyeze-5xM24pM_JhhUVcCMIDKYtDUnr2imxg2ubIqMscCZGUtdXNUO_LRSzuwWDlLyAr3V2nVn29Z48PQa2QzbymEXzO9pCtoGQmY7kiZ8ILfD9DAJSSyUTMwJXVJptUeBmLM341fq_STYZBbPQJ0zYOEDvJoFsIwGMfuphkDet0nK56b0mkzaL8RCRy2oK31Mcx6n3PhGkCnQ6QIhiV5ZVmV1Hz9M3w99zYw6ekc3wPCNMZ6V6x1ApVpIk3reFfByRQ0C0_pRWwbKZHLXQ_oSTI1UI7kyH1VeXngsJAx2l7zcp0hQNipajC4YwL7Jb8X4cCD0NeiaY1YCrI5j87mK5axcMikq460I4niIFeDBlHGF-ndqu3CJstosAur-C_x827f-dPPjA9Vrw8MDb3x4KUb0vbA8xE9mJxPYGY0rPCR27vJ38Voa7DjEBGX9c-iufv5_wfj-yIfIAHy0iijnRLI0CVkWF2-iPdWv7LnkTwL3WKbF_MrEGZXmtyLX9dEZArfxmToeMuSdYkfikkgR2-k4Xzxlz15RbHJuWSAYqEyTTnpUXmOvDuTN92b0kYqbRelcLUI_Shm-8dq9e-L7K6YWQv32gV6NukZKY15dyrJaW10frBgTOGSTTpIyB7MNEL8S27WjWtOb-zWsgimIhoRNfS8BiJWkmK4gTj51m7Wur-qsDbHgV6gXlMvjJs_B7oXX-mKsKhY9ACtwukotBelGYQOvf1RDHjH3Yi1RDfELBY6AkwUK4tq8cACVGpCwa0gKUo-sbORTsGu_r7VTzYo1AaZD5HV4XUm8yoqszel6DmIfkJcI7PfzzvfUJuvMQ1itZSzpzuth3glbKBYsIjbKqG-q8cxtZ7u0l32j46ASo2zlCJWUjwP3W1P7MUenEoIZtjlyTB_tT6Fk8RxGgRv3oLP7NPFJGs9ZGOAl6tBHpZF8Y_FqEOCMKtBl2JYOE5h6_Es3buSdiMm7mtLr64pboGiEColF1vbVvYpyaaqGFPXBM6ekZSXEXLAI0_7rj_fCLgnB21KXfac95vZbM9vyJCASvDcWKwqajQwy5aGMNe9GtbMogYbZfz5UGWAIi24Vd8KSv3qKOOwvzbcw4H0HYdsBXA"></script>
+
+        <style>
+
+        @import url('https://fonts.cdnfonts.com/css/pusab');
+
+                                      
+                                      
+        html {
+        background: url("assets/geometry/background.png");
+        background-size: cover;
+        background-attachment: fixed;
+        }
+        
+        .brownbox {
+        border-width: 2.5vh;
+        border-style: solid;
+        border-radius: 3vh;
+        background-color: #995533;
+        border-image: url('assets/geometry/brownbox.png') 10% round;
+        }
+        
+        
+
+        
+ 
+        
+        
+        .center {
+            text-align: center;
+            max-width: 100%;
+
+        }
+        .corner {
+           -moz-transform: scaleX(-1);
+            -o-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+            filter: FlipH;
+            -ms-filter: "FlipH";
+        }
+
+        .fit {
+            width: fit-content;
+        }
+        
+        .supercenter {
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%,-50%);
+        }
+        
+        
+        .pusab {
+                font-family: 'Pusab', Arial;
+                font-weight: normal;
+                margin: 0% 0%;
+                letter-spacing: -0.01em;
+                -webkit-text-size-adjust: 100%;
+                -webkit-text-stroke-color: black;
+                -webkit-text-stroke-color: black;
+                color: white;
+                font-size: 6vh;
+                line-height: 100%;
+                white-space: nowrap;
+                -webkit-text-stroke-width: 0.25vh;
+                text-shadow: 0.375vh 0.375vh 0vh rgba(0, 0, 0, 0.3);
+                border:0;outline:0;
+        }
+        
+        .login {
+            font-size: 4.5vh;
+        }
+        
+        input[type=text], input[type=password], input[type=number] {
+            padding-left: 1.2%;
+            border-radius: 2vh;
+            height: 80%;
+            margin-top: 1%;
+            width: 65%;
+            font-size: 5vh;
+            font-family: Pusab, Arial;
+            background: #6d3c24;
+        }
+
+        </style>    
+    </head>
+    <body>
+        <hr style="border:none; margin-bottom:1.25em">
+        <center><img src="https://www.boomlings.com/database/accounts/gdmanagerLogo2.png"  height="125px"/></center>
+        <hr style="border:none; margin-bottom:1.25em">
+        <br>
+    <center><div data-nosnippet="" id="tooSmall" class="brownbox center" style="width: 50%;">
+            <h1 class ="pusab center">Sign In</h1>
+
+             <hr style="border:none; margin-bottom:2em">
+            <h1 class="pusab center login">Username</h1>
+            <hr style="border:none; margin-bottom:0.5em">
+            <input type="text" name="gdbrowser" id="username" class="pusab" maxlength="50" style="height: 8vh; width: 90%; text-align: center; margin-top: 0.5%">
+             <hr style="border:none; margin-bottom:0.5em">
+            <h1 class="pusab center login">Password</h1>
+            <br>
+            <input type="text" name="gdbrowser" id="username" class="pusab" maxlength="50" style="height: 8vh; width: 90%; text-align: center; margin-top: 0.5%">
+            <br>
+            <br>
+
+            <br>
+            <br>
+            <a href="logged-in.html"><img src="assets/geometry/submit.png" height="50px;"/></a>
+            <p>    </p>
+            <a href="help"><img src="assets/geometry/help.svg" height="50px"/></a>
+
+        </div></center>
+        
+        <br>
+        <!--<img align="left" style = "vertical-align: bottom;   float: left;" src="https://codehs.com/uploads/a18a86d69f00d41d92700ac239abb6ff"/ width="15%">
+        -->
+
+
+    </body>
