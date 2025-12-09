@@ -726,6 +726,8 @@ var FCEUX = ( () => {
             ,
             140882: ($0, $1, $2) => {
                 const canvas = Module.ctx.canvas;
+                canvas.width = canvas.widthNative = $0 * $2;
+                canvas.height = canvas.heightNative = $1 * $2;
                 canvas.style.setProperty("width", $0 + "px", "important");
                 canvas.style.setProperty("height", $1 + "px", "important")
             }
