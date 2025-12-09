@@ -62,40 +62,6 @@ var FCEUX = ( () => {
             }
             return scriptDirectory + path
         }
-
-        // --- BEGIN: small guard to avoid auto-resize registrations when requested ---
-        // If the page has set window.FCEUX_DISABLE_AUTO_RESIZE = true before loading this script,
-        // block registrations of 'resize' event listeners so the emulator does not resize the canvas.
-        (function(){
-          try {
-            if (typeof window !== 'undefined' && window.FCEUX_DISABLE_AUTO_RESIZE) {
-              var _originalAddEventListener = window.addEventListener;
-              window.addEventListener = function(type, listener, options) {
-                if (type === 'resize') {
-                  // swallow resize registration to prevent fceux from auto-resizing the canvas
-                  // (this affects any script registering resize handlers after this point)
-                  try { console.debug && console.debug('fceux: blocked resize listener registration'); } catch (e) {}
-                  return;
-                }
-                return _originalAddEventListener.call(this, type, listener, options);
-              };
-              // Also block onresize assignment (window.onresize = ...)
-              try {
-                Object.defineProperty(window, 'onresize', {
-                  set: function(_) { /* ignored */ },
-                  get: function() { return null; },
-                  configurable: true
-                });
-              } catch (e) {
-                // some environments won't allow defining window.onresize property — ignore.
-              }
-            }
-          } catch (err) {
-            try { console.warn && console.warn('fceux: failed to install auto-resize guard', err); } catch (e) {}
-          }
-        })();
-        // --- END: guard ---
-
         var read_, readAsync, readBinary, setWindowTitle;
         function logExceptionOnExit(e) {
             if (e instanceof ExitStatus)
@@ -1727,7 +1693,6 @@ var FCEUX = ( () => {
                             get: function() {
                                 return this.shared.flags
                             },
-                            
                             set: function(val) {
                                 this.shared.flags = val
                             }
