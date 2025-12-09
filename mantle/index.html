@@ -11,7 +11,7 @@
     <script type="text/javascript" src="fceux.js"></script>
     <!-- Contained div for canvas used by em-fceux. -->
     <div style='width: 800px; height: 600px; text-align: center; margin: 0 auto; background: black; color: white; font-family: "Pixel Operator Bold", monospace'>
-        <canvas id="mycanvas"></canvas>
+        <canvas id="mycanvas" tabindex="0"></canvas>
         
         <div id="keys"></div>
     </div>
@@ -64,18 +64,17 @@
                     }
                 }
             }
-            // Resume audio on first user interaction
+            // Unlock WebAudio once
             function unlockAudio() {
-                if (fceux.audioContext && fceux.audioContext.state === 'suspended') {
+                if (fceux?.audioContext?.state === 'suspended') {
                     fceux.audioContext.resume();
                 }
-                window.removeEventListener('click', unlockAudio);
-                window.removeEventListener('keydown', unlockAudio);
             }
             
-            window.addEventListener('click', unlockAudio);
-            window.addEventListener('keydown', unlockAudio);
-        
+            // Attach just before starting emulator
+            window.addEventListener('click', unlockAudio, { once: true });
+            window.addEventListener('keydown', unlockAudio, { once: true });
+
             window.addEventListener('keydown', keyHandler);
             window.addEventListener('keyup', keyHandler);
         }
@@ -83,8 +82,19 @@
         // Create the Promise for the em-fceux instance and start automatically.
         FCEUX().then((fceux_) => {
             fceux = fceux_;
-            start();   // auto-start, no button needed
+        
+            function startAfterGesture() {
+                fceux.init('#mycanvas');
+                start();
+                window.removeEventListener('click', startAfterGesture);
+                window.removeEventListener('keydown', startAfterGesture);
+            }
+        
+            // require user gesture
+            window.addEventListener('click', startAfterGesture);
+            window.addEventListener('keydown', startAfterGesture);
         });
+
 
     </script>
 </body>
