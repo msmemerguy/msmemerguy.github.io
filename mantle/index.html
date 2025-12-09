@@ -19,61 +19,72 @@
     <!-- Our app script. -->
     <script>
         // Auto-start NES emulator without a button
-
-function start() {
-
-    // Initialize the instance (creates Web Audio etc.)
-    fceux.init('#mycanvas');
-
-    // Download a game ROM and start it.
-    fceux.downloadGame('mantle.nes');
-    fceux.setConfig('video-ntsc', true);
-    fceux.setConfig('video-tv', true);
-
-    // Run the emulation update loop.
-    function updateLoop() {
-        window.requestAnimationFrame(updateLoop);
-        fceux.update();
-    }
-    window.requestAnimationFrame(updateLoop);
-
-    // Bind keyboard input events to controller 1.
-    const keys = [
-        ['KeyZ', 'A'],
-        ['KeyX', 'B'],
-        ['KeyA', 'Select'],
-        ['KeyS', 'Start'],
-        ['ArrowUp', 'Up'],
-        ['ArrowDown', 'Down'],
-        ['ArrowLeft', 'Left'],
-        ['ArrowRight', 'Right'],
-    ];
-
-    let bits = 0;
-
-    function keyHandler(ev) {
-        for (let i = 0; i < keys.length; ++i) {
-            if (ev.code === keys[i][0]) {
-                if (ev.type === 'keydown') {
-                    bits |= (1 << i);
-                } else {
-                    bits &= ~(1 << i);
-                }
-                fceux.setControllerBits(bits);
-                ev.preventDefault();
+        
+        function start() {
+        
+            // Initialize the instance (creates Web Audio etc.)
+            fceux.init('#mycanvas');
+        
+            // Download a game ROM and start it.
+            fceux.downloadGame('mantle.nes');
+            fceux.setConfig('video-ntsc', true);
+            fceux.setConfig('video-tv', true);
+        
+            // Run the emulation update loop.
+            function updateLoop() {
+                window.requestAnimationFrame(updateLoop);
+                fceux.update();
             }
+            window.requestAnimationFrame(updateLoop);
+        
+            // Bind keyboard input events to controller 1.
+            const keys = [
+                ['KeyZ', 'A'],
+                ['KeyX', 'B'],
+                ['KeyA', 'Select'],
+                ['KeyS', 'Start'],
+                ['ArrowUp', 'Up'],
+                ['ArrowDown', 'Down'],
+                ['ArrowLeft', 'Left'],
+                ['ArrowRight', 'Right'],
+            ];
+        
+            let bits = 0;
+        
+            function keyHandler(ev) {
+                for (let i = 0; i < keys.length; ++i) {
+                    if (ev.code === keys[i][0]) {
+                        if (ev.type === 'keydown') {
+                            bits |= (1 << i);
+                        } else {
+                            bits &= ~(1 << i);
+                        }
+                        fceux.setControllerBits(bits);
+                        ev.preventDefault();
+                    }
+                }
+            }
+            // Resume audio on first user interaction
+            function unlockAudio() {
+                if (fceux.audioContext && fceux.audioContext.state === 'suspended') {
+                    fceux.audioContext.resume();
+                }
+                window.removeEventListener('click', unlockAudio);
+                window.removeEventListener('keydown', unlockAudio);
+            }
+            
+            window.addEventListener('click', unlockAudio);
+            window.addEventListener('keydown', unlockAudio);
+        
+            window.addEventListener('keydown', keyHandler);
+            window.addEventListener('keyup', keyHandler);
         }
-    }
-
-    window.addEventListener('keydown', keyHandler);
-    window.addEventListener('keyup', keyHandler);
-}
-
-// Create the Promise for the em-fceux instance and start automatically.
-FCEUX().then((fceux_) => {
-    fceux = fceux_;
-    start();   // auto-start, no button needed
-});
+        
+        // Create the Promise for the em-fceux instance and start automatically.
+        FCEUX().then((fceux_) => {
+            fceux = fceux_;
+            start();   // auto-start, no button needed
+        });
 
     </script>
 </body>
