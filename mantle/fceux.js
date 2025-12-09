@@ -358,7 +358,6 @@ var FCEUX = ( () => {
             } else {
                 var str = "";
                 for (var i = 0; !(i >= maxBytesToRead / 2); ++i) {
-
                     var codeUnit = HEAP16[ptr + i * 2 >> 1];
                     if (codeUnit == 0)
                         break;
@@ -1728,6 +1727,7 @@ var FCEUX = ( () => {
                             get: function() {
                                 return this.shared.flags
                             },
+                            
                             set: function(val) {
                                 this.shared.flags = val
                             }
