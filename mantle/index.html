@@ -6,38 +6,46 @@
 
 <html>
 
-<body style="margin: 0px; background-color: black;">
+<body style="margin: 0px">
     <!-- Import em-fceux. -->
     <script type="text/javascript" src="fceux.js"></script>
     <!-- Contained div for canvas used by em-fceux. -->
     <div style='width: 800px; height: 600px; text-align: center; margin: 0 auto; background: black; color: white; font-family: "Pixel Operator Bold", monospace'>
-        <canvas id="mycanvas" tabindex="0"></canvas>
-        
+        <canvas id="mycanvas"></canvas>
+        <div id="button" onclick="start()" style="display: none">
+            <b>start</b>
+        </div>
         <div id="keys"></div>
     </div>
 
     <!-- Our app script. -->
     <script>
-        // Auto-start NES emulator without a button
-        
+        // Start button and its handler.
+        // Calling fceux.init() below must be done from an user event handler
+        // (and only once) because of browser Web Audio restrictions.
+        const button = document.querySelector('#button');
+
         function start() {
-        
+            button.style.display = 'none';
+
             // Initialize the instance (creates Web Audio etc.)
             fceux.init('#mycanvas');
-        
+
             // Download a game ROM and start it.
             fceux.downloadGame('mantle.nes');
             fceux.setConfig('video-ntsc', true);
             fceux.setConfig('video-tv', true);
-        
+
             // Run the emulation update loop.
+            // Use requestAnimationFrame() to synchronise to repaints.
             function updateLoop() {
                 window.requestAnimationFrame(updateLoop);
                 fceux.update();
             }
             window.requestAnimationFrame(updateLoop);
-        
+
             // Bind keyboard input events to controller 1.
+            // The array index below corresponds to the button bit index.
             const keys = [
                 ['KeyZ', 'A'],
                 ['KeyX', 'B'],
@@ -48,14 +56,13 @@
                 ['ArrowLeft', 'Left'],
                 ['ArrowRight', 'Right'],
             ];
-        
             let bits = 0;
-        
+
             function keyHandler(ev) {
                 for (let i = 0; i < keys.length; ++i) {
-                    if (ev.code === keys[i][0]) {
-                        if (ev.type === 'keydown') {
-                            bits |= (1 << i);
+                    if (ev.code == keys[i][0]) {
+                        if (ev.type == 'keydown') {
+                            bits |= 1 << i;
                         } else {
                             bits &= ~(1 << i);
                         }
@@ -64,38 +71,23 @@
                     }
                 }
             }
-            // Unlock WebAudio once
-            function unlockAudio() {
-                if (fceux?.audioContext?.state === 'suspended') {
-                    fceux.audioContext.resume();
-                }
-            }
-            
-            // Attach just before starting emulator
-            window.addEventListener('click', unlockAudio, { once: true });
-            window.addEventListener('keydown', unlockAudio, { once: true });
-
             window.addEventListener('keydown', keyHandler);
             window.addEventListener('keyup', keyHandler);
+
+            // Add HTML for the input keys.
+            //const keysDiv = document.querySelector('#keys');
+            //keysDiv.innerHTML += keys
+            //  .map((key) => `${key[1]} - ${key[0]}`)
+            //  .join('<br/>');
         }
-        
-        // Create the Promise for the em-fceux instance and start automatically.
+
+        // Create the Promise for the em-fceux instance.
         FCEUX().then((fceux_) => {
+            // Store the instance as global.
             fceux = fceux_;
-        
-            function startAfterGesture() {
-                fceux.init('#mycanvas');
-                start();
-                window.removeEventListener('click', startAfterGesture);
-                window.removeEventListener('keydown', startAfterGesture);
-            }
-        
-            // require user gesture
-            window.addEventListener('click', startAfterGesture);
-            window.addEventListener('keydown', startAfterGesture);
+            // Display the start button.
+            button.style.display = 'block';
         });
-
-
     </script>
 </body>
 
