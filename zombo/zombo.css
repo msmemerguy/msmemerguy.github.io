@@ -1,295 +1,176 @@
-/* zombo.css */
-:root{
-  --bg-top: #071a5a;
-  --bg-mid: #1a4fb7;
-  --ink: #0b1b33;
-  --soft-ink: rgba(11,27,51,.75);
-  --card: rgba(255,255,255,.72);
-  --shadow: 0 14px 32px rgba(10, 18, 40, .18);
+@charset "utf-8";
+body {
+	font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
+	background-color: #FFFFFF;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-image: url(images/zombo_bg.png);
+	background-repeat: repeat-x ;
 }
 
-*{ box-sizing: border-box; }
-
-html, body{
-  height: 100%;
+/* ~~ Element/tag selectors ~~ */
+ul, ol, dl { /* Due to variations between browsers, it's best practices to zero padding and margin on lists. For consistency, you can either specify the amounts you want here, or on the list items (LI, DT, DD) they contain. Remember that what you do here will cascade to the .nav list unless you write a more specific selector. */
+	padding: 0;
+	margin: 0;
+}
+h1, h2, h3, h4, h5, h6, p {
+	margin-top: 0;	 /* removing the top margin gets around an issue where margins can escape from their containing div. The remaining bottom margin will hold it away from any elements that follow. */
+	padding-right: 15px;
+	padding-left: 15px; /* adding the padding to the sides of the elements within the divs, instead of the divs themselves, gets rid of any box model math. A nested div with side padding can also be used as an alternate method. */
+}
+a img { /* this selector removes the default blue border displayed in some browsers around an image when it is surrounded by a link */
+	border: none;
+}
+/* ~~ Styling for your site's links must remain in this order - including the group of selectors that create the hover effect. ~~ */
+a:link {
+	color: #42413C;
+	text-decoration: underline; /* unless you style your links to look extremely unique, it's best to provide underlines for quick visual identification */
+}
+a:visited {
+	color: #6E6C64;
+	text-decoration: underline;
+}
+a:hover, a:active, a:focus { /* this group of selectors will give a keyboard navigator the same hover experience as the person using a mouse. */
+	text-decoration: none;
 }
 
-body{
-  margin: 0;
-  color: var(--ink);
-  font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  background:
-    linear-gradient(to bottom,
-      var(--bg-top) 0px,
-      var(--bg-mid) 70px,
-      #ffffff 140px,
-      #ffffff 100%);
-  overflow-x: hidden;
+/* ~~ this fixed width container surrounds all other elements ~~ */
+.container {
+	width: 960px;
+	background-color: #FFF;
+	margin: 0 auto; /* the auto value on the sides, coupled with the width, centers the layout */
 }
 
-.page{
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 22px 18px 56px;
-  gap: 18px;
+/* ~~ This is the layout information. ~~ 
+
+1) Padding is only placed on the top and/or bottom of the div. The elements within this div have padding on their sides. This saves you from any "box model math". Keep in mind, if you add any side padding or border to the div itself, it will be added to the width you define to create the *total* width. You may also choose to remove the padding on the element in the div and place a second div within it with no width and the padding necessary for your design.
+
+*/
+.content {
+
+	padding: 10px 0;
 }
 
-.hero{
-  width: min(1100px, 96vw);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 6px;
+/* ~~ miscellaneous float/clear classes ~~ */
+.fltrt {  /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
 }
-
-.logo{
-  width: min(923px, 92vw);
-  height: auto;
-  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .18));
+.fltlft { /* this class can be used to float an element left in your page. The floated element must precede the element it should be next to on the page. */
+	float: left;
+	margin-right: 8px;
 }
-
-.spinner-area{
-  width: min(920px, 96vw);
-  display: grid;
-  place-items: center;
-  gap: 12px;
-  position: relative;
-  padding: 12px 0 6px;
-}
-
-.pinwheel-wrap{
-  width: min(320px, 72vw);
-  aspect-ratio: 1 / 1;
-  display: grid;
-  place-items: center;
-  position: relative;
-}
-
-.pinwheel{
-  width: 100%;
-  height: 100%;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,.85), rgba(255,255,255,0) 40%),
-    conic-gradient(
-      #ffe4ef 0deg 51.43deg,
-      #fff7cc 51.43deg 102.86deg,
-      #e9e2ff 102.86deg 154.29deg,
-      #dcfbff 154.29deg 205.72deg,
-      #e6ffe8 205.72deg 257.15deg,
-      #fff0da 257.15deg 308.58deg,
-      #f3f1d2 308.58deg 360deg
-    );
-  border: 6px solid rgba(255,255,255,.85);
-  box-shadow: var(--shadow);
-  animation: spin 1.55s linear infinite;
-  position: relative;
-}
-
-.pinwheel::after{
-  content: "";
-  position: absolute;
-  inset: 50%;
-  width: 20%;
-  height: 20%;
-  transform: translate(-50%, -50%);
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, #ffffff, rgba(240,240,255,.92));
-  border: 2px solid rgba(10, 18, 40, .12);
-  box-shadow: 0 10px 16px rgba(10, 18, 40, .12);
-}
-
-@keyframes spin{
-  to { transform: rotate(360deg); }
-}
-
-.hint{
-  margin: 0;
-  font-size: 0.98rem;
-  color: var(--soft-ink);
-}
-
-.speaker{
-  position: static;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  border: 0;
-  cursor: pointer;
-  color: #0a2152;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.75));
-  box-shadow: 0 10px 18px rgba(10, 18, 40, .18);
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  transition: transform .12s ease, box-shadow .12s ease;
-}
-
-.speaker:hover{ transform: translateY(-1px); }
-.speaker:active{ transform: translateY(0px) scale(.98); }
-.speaker:focus-visible{
-  outline: 3px solid rgba(26, 79, 183, .35);
-  outline-offset: 3px;
-}
-
-.icon{ display: none; }
-.speaker[data-playing="false"] .icon-off{ display: block; }
-.speaker[data-playing="true"] .icon-on{ display: block; }
-
-.poem{
-  width: min(820px, 92vw);
-  margin-top: 8px;
-  background: var(--card);
-  border: 1px solid rgba(10, 18, 40, .08);
-  border-radius: 18px;
-  box-shadow: 0 18px 46px rgba(10, 18, 40, .08);
-  padding: 18px 18px;
-  backdrop-filter: blur(8px);
-}
-
-.poem p{
-  margin: 0;
-  line-height: 1.65;
-  font-size: 1.05rem;
-}
-
-@media (max-width: 520px){
-  .poem{ border-radius: 16px; }
+.clearfloat { /* this class can be placed on a <br /> or empty div as the final element following the last floated div (within the #container) if the overflow:hidden on the .container is removed */
+	clear:both;
+	height:0;
+	font-size: 1px;
+	line-height: 0px;
 }
 
 
-/* --- New loading bar + scroller styles --- */
-.loader-area{
-  width: min(920px, 96vw);
-  display: grid;
-  place-items: center;
-  gap: 14px;
-  position: relative;
-  padding: 8px 0 6px;
+/* added to make rotate */
+.rotate {
+  animation:  rotation .5s infinite linear ;
+
 }
 
-.loader-wrap{
-  width: min(820px, 92vw);
-  position: relative;
-  background: var(--card);
-  border: 1px solid rgba(10, 18, 40, .08);
-  border-radius: 18px;
-  box-shadow: 0 18px 46px rgba(10, 18, 40, .08);
-  padding: 18px 18px 16px;
-  backdrop-filter: blur(8px);
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.loading-title{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin: 6px 0 14px;
-  text-align: center;
+  /* ~~josh add ~~ */
+  
+@keyframes flickerAnimation {
+  0%   { opacity:1; }
+  50%  { opacity:.1; }
+  100% { opacity:1; }
+}
+@-o-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:.1; }
+  100% { opacity:1; }
+}
+@-moz-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:.1; }
+  100% { opacity:1; }
+}
+@-webkit-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:.1; }
+  100% { opacity:1; }
+}
+.animate-flicker {
+   -webkit-animation: flickerAnimation .3s infinite;
+   -moz-animation: flickerAnimation .3s infinite;
+   -o-animation: flickerAnimation .3s infinite;
+    animation: flickerAnimation .3s infinite;
+	
+	margin-top:13%;
 }
 
-.loading-word{
-  font-size: 1.15rem;
-  font-weight: 750;
-  letter-spacing: .2px;
+
+  /* ~~josh add audio button stuff~~ */
+audio {
+  display: none;
 }
 
-.loading-pct{
-  font-variant-numeric: tabular-nums;
-  font-size: 1.15rem;
-  font-weight: 800;
+
+button {
+    font-size: 22px;
+    color: #eee;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+	height: 40px;
+    padding: 5px;
+    border: none;
+    border-radius: 2px;
+    outline: none;
+    background: black;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    opacity: 0.8;
+    cursor: pointer;
+    transition: all 0.4s ease-out;
+    
 }
 
-.loading-bar{
-  width: 100%;
-  height: 28px; /* thick */
-  border-radius: 999px;
-  background: rgba(255,255,255,.8);
-  border: 2px solid rgba(10, 18, 40, .14);
-  box-shadow: inset 0 2px 10px rgba(10, 18, 40, .08);
-  overflow: hidden;
-}
-
-.loading-fill{
-  height: 100%;
-  width: 0%;
-  border-radius: 999px;
-  background: linear-gradient(90deg,
-    #ff3b3b,
-    #ff8c1a,
-    #ffd400,
-    #34d058,
-    #18c8ff,
-    #3c6fff,
-    #b24cff
-  );
-  box-shadow: 0 10px 18px rgba(10, 18, 40, .12);
-  transition: width .35s ease;
-}
-
-.scrollbox{
-  width: min(820px, 92vw);
-  background: rgba(255,255,255,.92);
-  border: 1px solid rgba(10, 18, 40, .10);
-  border-radius: 14px;
-  padding: 12px 14px;
-  box-shadow: 0 14px 32px rgba(10, 18, 40, .08);
-}
-
-.scrollwindow{
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 1.05rem;
-  line-height: 1.35;
-  min-height: 1.35em;
-  white-space: pre;
-  letter-spacing: .5px;
-  display: block;
-  text-align: center;
-  color: var(--ink);
-}
-
-.scrollwindow a{
-  color: #1a4fb7;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.join-card{
-  width: min(920px, 96vw);
-  background: var(--card);
-  border: 1px solid rgba(10, 18, 40, .08);
-  border-radius: 18px;
-  box-shadow: 0 18px 46px rgba(10, 18, 40, .08);
-  padding: 18px 18px;
-  backdrop-filter: blur(8px);
-}
-
-.join-text{
-  margin: 0 0 16px 0;
-  line-height: 1.65;
-  font-size: 1.08rem;
-  text-align: center;
-}
-
-.join-embed{
-  display: grid;
-  place-items: center;
-}
-
-.site-footer {
-  text-align: center;
-  font-size: 0.8rem;
-  color: #666; /* Subtle grey */
-  padding: 20px;
-  margin-top: 40px;
-  font-family: sans-serif;
+button.fade:hover {
   opacity: 0.8;
 }
 
-.site-footer p {
-  max-width: 600px;
-  margin: 0 auto;
+.fade {
+  opacity: 0.2;
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
 }
+
+  /* ~~Z add responsive stuff~~ */
+
+img { max-width: 100%; height: auto; }
+
+
+* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1060px) {
+    #primary { width:67%; }
+    #secondary { width:30%; margin-left:3%;}  
+}
+
+/* Media Queries: Tabled Portrait */
+@media screen and (max-width: 768px) {
+    #primary { width:80%; }
+    #secondary { width:80%; margin:0; border:none; }
+	
+	 /* ~~Z add keep wheel in place stuff~~ */
+	 
+	 
+	 
